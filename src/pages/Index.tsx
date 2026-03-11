@@ -1,12 +1,33 @@
-// Update this page (the content is just a fallback if you fail to update the page)
+/**
+ * Index — Maison Belle
+ * Página principal de la tienda online de bolsos.
+ * Ensambla todos los componentes de la página.
+ */
+import Header              from "@/components/Header";
+import HeroSection         from "@/components/HeroSection";
+import FeaturedProducts    from "@/components/FeaturedProducts";
+import CategoriesSection   from "@/components/CategoriesSection";
+import TestimonialsSection from "@/components/TestimonialsSection";
+import PromoBanner         from "@/components/PromoBanner";
+import Footer              from "@/components/Footer";
 
 const Index = () => {
   return (
-    <div className="flex min-h-screen items-center justify-center bg-background">
-      <div className="text-center">
-        <h1 className="mb-4 text-4xl font-bold">Welcome to Your Blank App</h1>
-        <p className="text-xl text-muted-foreground">Start building your amazing project here!</p>
-      </div>
+    <div className="min-h-screen bg-background overflow-x-hidden">
+      {/* Navegación fija superior */}
+      <Header />
+
+      {/* Secciones de la página */}
+      <main>
+        <HeroSection />
+        <FeaturedProducts />
+        <CategoriesSection />
+        <PromoBanner />
+        <TestimonialsSection />
+      </main>
+
+      {/* Pie de página */}
+      <Footer />
     </div>
   );
 };
