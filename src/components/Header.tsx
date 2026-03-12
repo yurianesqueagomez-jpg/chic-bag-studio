@@ -1,10 +1,11 @@
 /**
  * Header — Maison Belle
  * Logo, navegación principal y carrito de compras.
- * Incluye menú responsive (hamburguesa en móvil).
+ * Usa CartContext para el contador y abrir el drawer.
  */
 import { useState, useEffect } from "react";
 import { ShoppingBag, Menu, X } from "lucide-react";
+import { useCart } from "@/context/CartContext";
 
 const navLinks = [
   { label: "Inicio",       href: "#inicio" },
@@ -15,20 +16,14 @@ const navLinks = [
 ];
 
 export default function Header() {
-  const [menuOpen,   setMenuOpen]   = useState(false);
-  const [scrolled,   setScrolled]   = useState(false);
-  const [cartCount,  setCartCount]  = useState(0);
+  const [menuOpen, setMenuOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+  const { cartCount, setCartOpen } = useCart();
 
-  /* Detecta scroll para aplicar fondo con sombra */
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 20);
     window.addEventListener("scroll", onScroll);
     return () => window.removeEventListener("scroll", onScroll);
-  }, []);
-
-  /* Expone función global para añadir al carrito desde otras secciones */
-  useEffect(() => {
-    (window as any).addToCart = () => setCartCount((c) => c + 1);
   }, []);
 
   return (
@@ -66,9 +61,9 @@ export default function Header() {
 
         {/* Carrito + hamburguesa */}
         <div className="flex items-center gap-4">
-          {/* Icono carrito */}
           <button
             aria-label="Carrito de compras"
+            onClick={() => setCartOpen(true)}
             className="relative p-2 rounded-full hover:bg-secondary transition-colors duration-200"
           >
             <ShoppingBag size={22} className="text-deep-brown" />
@@ -79,7 +74,6 @@ export default function Header() {
             )}
           </button>
 
-          {/* Botón hamburguesa — móvil */}
           <button
             aria-label="Menú"
             className="md:hidden p-2 rounded-full hover:bg-secondary transition-colors duration-200"
@@ -90,7 +84,7 @@ export default function Header() {
         </div>
       </div>
 
-      {/* Menú móvil desplegable */}
+      {/* Menú móvil */}
       <div
         className={`md:hidden overflow-hidden transition-all duration-300 bg-cream/97 backdrop-blur-sm ${
           menuOpen ? "max-h-80 border-t border-border" : "max-h-0"
